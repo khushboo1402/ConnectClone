@@ -1,4 +1,4 @@
-# Connect - Tinder Clone
+# Connect - Dating App
 
 Connect is a dating app clone built using Flutterflow, a no-code platform for developing Flutter applications. It mimics the functionality and design of the popular dating app Tinder, allowing users to connect and match with potential partners based on their preferences.
 
