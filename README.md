@@ -33,7 +33,7 @@ To run Connect locally on your machine, follow these steps:
 1. **Clone the repository**:
 
    ```
-   [https://github.com/araczzz/Connect.git](https://github.com/araczzz/Connect.git)
+   https://github.com/araczzz/Connect.git
    ```
 
 2. **Install Flutter and Dart**:
