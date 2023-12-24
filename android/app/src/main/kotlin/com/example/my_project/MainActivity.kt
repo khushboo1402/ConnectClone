@@ -1,4 +1,4 @@
-package com.agapps.tinderapps
+package kaleo.chat.app
 
 import io.flutter.embedding.android.FlutterActivity
 

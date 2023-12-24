@@ -1,22 +1,18 @@
-import '/auth/firebase_auth/auth_util.dart';
-import '/backend/backend.dart';
 import '/flutter_flow/chat/index.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/pages/chat_details/chat_details_widget.dart';
+import 'chat_main_widget.dart' show ChatMainWidget;
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
-class ChatMainModel extends FlutterFlowModel {
+class ChatMainModel extends FlutterFlowModel<ChatMainWidget> {
   /// Initialization and disposal methods.
 
+  @override
   void initState(BuildContext context) {}
 
+  @override
   void dispose() {}
 
   /// Action blocks are added here.
 
   /// Additional helper methods are added here.
-
 }

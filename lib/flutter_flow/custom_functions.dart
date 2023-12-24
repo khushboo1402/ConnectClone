@@ -12,26 +12,6 @@ import '/backend/backend.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '/auth/firebase_auth/auth_util.dart';
 
-List<String>? combinedList(
-  List<String>? matches,
-  List<String>? rejected,
-) {
-  final List<String> newList = <String>[""];
-
-  if (matches != null) {
-    matches.forEach((match) => newList.add(match));
-  }
-
-  if (rejected != null) {
-    rejected.forEach((rejected) => newList.add(rejected));
-  }
-
-  return newList;
-}
-
-List<DocumentReference>? createChatUserList(
-  DocumentReference userRef1,
-  DocumentReference userRef2,
-) {
-  return [userRef1, userRef2];
+bool? hasNoChats(List<ChatsRecord>? allChats) {
+  return allChats?.isEmpty ?? true;
 }

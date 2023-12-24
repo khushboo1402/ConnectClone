@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Tinder</string>
+	<string>FlutterHeart</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -13,7 +13,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>Tinder</string>
+	<string>FlutterHeart</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 
@@ -28,12 +28,24 @@
             <string>Editor</string>
             <key>CFBundleURLSchemes</key>
             <array>
-                <string>com.googleusercontent.apps.348788812567-utrudl0ldjnpf5gd0iu7337fkkbg6sqr</string>
+                <!--FF_REVERSED_CLIENT_ID-->
                 
             </array>
         </dict>
 
+        <dict>
+        <key>CFBundleTypeRole</key>
+        <string>Editor</string>
+        <key>CFBundleURLName</key>
+        <string>flutterheart.com</string>
+        <key>CFBundleURLSchemes</key>
+        <array>
+        <string>flutterheart</string>
+        </array>
+        </dict>
     </array>
+    <key>FlutterDeepLinkingEnabled</key>
+    <true/>
 
 
 	<key>CFBundleVersion</key>

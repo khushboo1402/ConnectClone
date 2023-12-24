@@ -9,7 +9,7 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 /// Generates a cryptographically secure random nonce, to be included in a
 /// credential request.
 String generateNonce([int length = 32]) {
-  final charset =
+  const charset =
       '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._';
   final random = Random.secure();
   return List.generate(length, (_) => charset[random.nextInt(charset.length)])
@@ -56,5 +56,17 @@ Future<UserCredential> appleSignIn() async {
 
   // Sign in the user with Firebase. If the nonce we generated earlier does
   // not match the nonce in `appleCredential.identityToken`, sign in will fail.
-  return await FirebaseAuth.instance.signInWithCredential(oauthCredential);
+  final user =
+      await FirebaseAuth.instance.signInWithCredential(oauthCredential);
+
+  final displayName = [appleCredential.givenName, appleCredential.familyName]
+      .where((name) => name != null)
+      .join(' ');
+
+  // The display name does not automatically come with the user.
+  if (displayName.isNotEmpty) {
+    await user.user?.updateDisplayName(displayName);
+  }
+
+  return user;
 }

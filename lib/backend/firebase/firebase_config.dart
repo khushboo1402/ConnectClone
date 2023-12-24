@@ -4,14 +4,13 @@ import 'package:flutter/foundation.dart';
 Future initFirebase() async {
   if (kIsWeb) {
     await Firebase.initializeApp(
-        options: FirebaseOptions(
-            apiKey: "AIzaSyBsFZN1tTBYUfFuNwkCCqk-XHydGuEbFVs",
-            authDomain: "tinderapps-57690.firebaseapp.com",
-            projectId: "tinderapps-57690",
-            storageBucket: "tinderapps-57690.appspot.com",
-            messagingSenderId: "348788812567",
-            appId: "1:348788812567:web:5184ef1a5feaed12f62552",
-            measurementId: "G-NDCB99VJ5R"));
+        options: const FirebaseOptions(
+            apiKey: "AIzaSyDUIBRpfzwZhdDrINziHsNa4b01fUx5R4E",
+            authDomain: "flutter-heart-6nrj5i.firebaseapp.com",
+            projectId: "flutter-heart-6nrj5i",
+            storageBucket: "flutter-heart-6nrj5i.appspot.com",
+            messagingSenderId: "1010780327002",
+            appId: "1:1010780327002:web:1db636e4602f30d2c09c63"));
   } else {
     await Firebase.initializeApp();
   }

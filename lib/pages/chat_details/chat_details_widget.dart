@@ -1,21 +1,20 @@
-import '/backend/backend.dart';
+import '/components/empty_list/empty_list_widget.dart';
 import '/flutter_flow/chat/index.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
-import '/flutter_flow/flutter_flow_util.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'chat_details_model.dart';
 export 'chat_details_model.dart';
 
 class ChatDetailsWidget extends StatefulWidget {
   const ChatDetailsWidget({
-    Key? key,
+    super.key,
     this.chatUser,
     this.chatRef,
-  }) : super(key: key);
+  });
 
   final UsersRecord? chatUser;
   final DocumentReference? chatRef;
@@ -54,6 +53,8 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
         setState(() => _chatInfo = info);
       }
     });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -65,38 +66,274 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
+    if (isiOS) {
+      SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(
+          statusBarBrightness: Theme.of(context).brightness,
+          systemStatusBarContrastEnforced: true,
+        ),
+      );
+    }
 
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+      endDrawer: Drawer(
+        elevation: 16.0,
+        child: Container(
+          width: 100.0,
+          height: 100.0,
+          decoration: BoxDecoration(
+            color: FlutterFlowTheme.of(context).dark900,
+          ),
+          child: StreamBuilder<UsersRecord>(
+            stream: UsersRecord.getDocument(widget.chatUser!.reference),
+            builder: (context, snapshot) {
+              // Customize what your widget looks like when it's loading.
+              if (!snapshot.hasData) {
+                return Center(
+                  child: SizedBox(
+                    width: 50.0,
+                    height: 50.0,
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        FlutterFlowTheme.of(context).primary,
+                      ),
+                    ),
+                  ),
+                );
+              }
+              final columnUsersRecord = snapshot.data!;
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsetsDirectional.fromSTEB(
+                            12.0, 36.0, 0.0, 0.0),
+                        child: FlutterFlowIconButton(
+                          borderColor: Colors.transparent,
+                          borderRadius: 30.0,
+                          buttonSize: 48.0,
+                          icon: Icon(
+                            Icons.close_rounded,
+                            color: FlutterFlowTheme.of(context).grayIcon,
+                            size: 30.0,
+                          ),
+                          onPressed: () async {
+                            if (scaffoldKey.currentState!.isDrawerOpen ||
+                                scaffoldKey.currentState!.isEndDrawerOpen) {
+                              Navigator.pop(context);
+                            }
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 20.0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Card(
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          color: FlutterFlowTheme.of(context).primary,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(60.0),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(2.0),
+                            child: Container(
+                              width: 90.0,
+                              height: 90.0,
+                              clipBehavior: Clip.antiAlias,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                              ),
+                              child: CachedNetworkImage(
+                                fadeInDuration: const Duration(milliseconds: 500),
+                                fadeOutDuration: const Duration(milliseconds: 500),
+                                imageUrl: valueOrDefault<String>(
+                                  columnUsersRecord.photoUrl,
+                                  'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/dark-mode-chat-xk2sj6/assets/dx4gzvbpilu4/avatar@2x.png',
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        columnUsersRecord.displayName,
+                        textAlign: TextAlign.center,
+                        style:
+                            FlutterFlowTheme.of(context).headlineSmall.override(
+                                  fontFamily: 'Outfit',
+                                  color: FlutterFlowTheme.of(context).tertiary,
+                                ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 0.0, 0.0),
+                        child: Text(
+                          columnUsersRecord.email,
+                          style:
+                              FlutterFlowTheme.of(context).bodyMedium.override(
+                                    fontFamily: 'Plus Jakarta Sans',
+                                    color: FlutterFlowTheme.of(context).primary,
+                                  ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
+                              20.0, 24.0, 16.0, 0.0),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Job Title',
+                                style: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .override(
+                                      fontFamily: 'Plus Jakarta Sans',
+                                      fontSize: 10.0,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                    0.0, 8.0, 0.0, 0.0),
+                                child: Text(
+                                  columnUsersRecord.userRole,
+                                  style:
+                                      FlutterFlowTheme.of(context).titleSmall,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
+                              20.0, 16.0, 16.0, 0.0),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Employed Since',
+                                style: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .override(
+                                      fontFamily: 'Plus Jakarta Sans',
+                                      fontSize: 10.0,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                    0.0, 8.0, 0.0, 0.0),
+                                child: Text(
+                                  dateTimeFormat(
+                                      'MMMEd', columnUsersRecord.createdTime!),
+                                  style:
+                                      FlutterFlowTheme.of(context).titleSmall,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              );
+            },
+          ),
+        ),
+      ),
       appBar: AppBar(
-        backgroundColor: FlutterFlowTheme.of(context).dark600,
+        backgroundColor: FlutterFlowTheme.of(context).primary,
         automaticallyImplyLeading: false,
-        leading: FlutterFlowIconButton(
-          borderColor: Colors.transparent,
-          borderRadius: 30.0,
-          borderWidth: 1.0,
-          buttonSize: 60.0,
-          icon: Icon(
+        leading: InkWell(
+          splashColor: Colors.transparent,
+          focusColor: Colors.transparent,
+          hoverColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          onTap: () async {
+            context.pushNamed(
+              'chatMain',
+              extra: <String, dynamic>{
+                kTransitionInfoKey: const TransitionInfo(
+                  hasTransition: true,
+                  transitionType: PageTransitionType.leftToRight,
+                  duration: Duration(milliseconds: 200),
+                ),
+              },
+            );
+          },
+          child: Icon(
             Icons.arrow_back_rounded,
             color: FlutterFlowTheme.of(context).tertiary,
-            size: 30.0,
+            size: 24.0,
           ),
-          onPressed: () async {
-            Navigator.pop(context);
-          },
         ),
         title: Text(
           widget.chatUser!.displayName,
-          style: FlutterFlowTheme.of(context).titleMedium.override(
-                fontFamily: 'Urbanist',
+          style: FlutterFlowTheme.of(context).titleSmall.override(
+                fontFamily: 'Plus Jakarta Sans',
                 color: FlutterFlowTheme.of(context).tertiary,
               ),
         ),
-        actions: [],
-        centerTitle: false,
-        elevation: 2.0,
+        actions: [
+          Padding(
+            padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 16.0, 0.0),
+            child: InkWell(
+              splashColor: Colors.transparent,
+              focusColor: Colors.transparent,
+              hoverColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              onTap: () async {
+                scaffoldKey.currentState!.openEndDrawer();
+              },
+              child: Icon(
+                Icons.more_vert,
+                color: FlutterFlowTheme.of(context).tertiary,
+                size: 24.0,
+              ),
+            ),
+          ),
+        ],
+        centerTitle: true,
+        elevation: 3.0,
       ),
       body: SafeArea(
         top: true,
@@ -111,16 +348,16 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
                   allowImages: true,
                   backgroundColor:
                       FlutterFlowTheme.of(context).primaryBackground,
-                  timeDisplaySetting: TimeDisplaySetting.alwaysVisible,
+                  timeDisplaySetting: TimeDisplaySetting.visibleOnTap,
                   currentUserBoxDecoration: BoxDecoration(
-                    color: Colors.white,
+                    color: FlutterFlowTheme.of(context).dark900,
                     border: Border.all(
                       color: Colors.transparent,
                     ),
                     borderRadius: BorderRadius.circular(8.0),
                   ),
                   otherUsersBoxDecoration: BoxDecoration(
-                    color: Color(0xFF4B39EF),
+                    color: const Color(0xFF4B39EF),
                     border: Border.all(
                       color: Colors.transparent,
                     ),
@@ -128,7 +365,7 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
                   ),
                   currentUserTextStyle: GoogleFonts.getFont(
                     'Lexend Deca',
-                    color: Color(0xFF1E2429),
+                    color: FlutterFlowTheme.of(context).tertiary,
                     fontWeight: FontWeight.w500,
                     fontSize: 14.0,
                     fontStyle: FontStyle.normal,
@@ -141,7 +378,7 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
                   ),
                   inputHintTextStyle: GoogleFonts.getFont(
                     'Lexend Deca',
-                    color: Color(0xFF95A1AC),
+                    color: const Color(0xFF95A1AC),
                     fontWeight: FontWeight.normal,
                     fontSize: 14.0,
                   ),
@@ -151,11 +388,8 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
                     fontWeight: FontWeight.normal,
                     fontSize: 14.0,
                   ),
-                  emptyChatWidget: Center(
-                    child: Image.asset(
-                      'assets/images/messagesEmpty@2x.png',
-                      width: 300.0,
-                    ),
+                  emptyChatWidget: const Center(
+                    child: EmptyListWidget(),
                   ),
                 )
               : Center(
@@ -163,7 +397,9 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
                     width: 50.0,
                     height: 50.0,
                     child: CircularProgressIndicator(
-                      color: FlutterFlowTheme.of(context).primary,
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        FlutterFlowTheme.of(context).primary,
+                      ),
                     ),
                   ),
                 ),

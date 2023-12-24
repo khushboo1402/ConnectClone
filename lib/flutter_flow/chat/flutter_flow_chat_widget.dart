@@ -13,7 +13,7 @@ enum TimeDisplaySetting {
 
 class FFChatWidget extends StatelessWidget {
   const FFChatWidget({
-    Key? key,
+    super.key,
     required this.currentUser,
     required this.scrollController,
     required this.focusNode,
@@ -30,7 +30,7 @@ class FFChatWidget extends StatelessWidget {
     this.inputHintTextStyle,
     this.inputTextStyle,
     this.emptyChatWidget,
-  }) : super(key: key);
+  });
 
   final ChatUser currentUser;
   final ScrollController scrollController;
@@ -139,7 +139,7 @@ class FFChatWidget extends StatelessWidget {
 
 class FFChatMessage extends StatefulWidget {
   const FFChatMessage({
-    Key? key,
+    super.key,
     required this.chatMessage,
     required this.isMe,
     this.timeDisplaySetting,
@@ -147,7 +147,7 @@ class FFChatMessage extends StatefulWidget {
     this.otherUsersBoxDecoration,
     this.currentUserTextStyle,
     this.otherUsersTextStyle,
-  }) : super(key: key);
+  });
 
   final ChatMessage chatMessage;
   final TimeDisplaySetting? timeDisplaySetting;
@@ -220,7 +220,7 @@ class _FFChatMessageState extends State<FFChatMessage> {
               splashColor: Colors.transparent,
               child: Container(
                 constraints: BoxConstraints(
-                    maxWidth: MediaQuery.of(context).size.width * 0.65),
+                    maxWidth: MediaQuery.sizeOf(context).width * 0.65),
                 decoration: boxDecoration.copyWith(
                     color: hasImage ? Colors.transparent : null),
                 child: hasImage

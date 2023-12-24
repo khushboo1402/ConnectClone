@@ -1,16 +1,17 @@
 import 'dart:async';
 
+import 'package:collection/collection.dart';
+
 import '/backend/schema/util/firestore_util.dart';
 import '/backend/schema/util/schema_util.dart';
 
 import 'index.dart';
-import '/flutter_flow/flutter_flow_util.dart';
 
 class UsersRecord extends FirestoreRecord {
   UsersRecord._(
-    DocumentReference reference,
-    Map<String, dynamic> data,
-  ) : super(reference, data) {
+    super.reference,
+    super.data,
+  ) {
     _initializeFields();
   }
 
@@ -34,71 +35,41 @@ class UsersRecord extends FirestoreRecord {
   String get uid => _uid ?? '';
   bool hasUid() => _uid != null;
 
-  // "phone_number" field.
-  String? _phoneNumber;
-  String get phoneNumber => _phoneNumber ?? '';
-  bool hasPhoneNumber() => _phoneNumber != null;
-
-  // "bio" field.
-  String? _bio;
-  String get bio => _bio ?? '';
-  bool hasBio() => _bio != null;
-
-  // "age" field.
-  int? _age;
-  int get age => _age ?? 0;
-  bool hasAge() => _age != null;
-
-  // "location" field.
-  String? _location;
-  String get location => _location ?? '';
-  bool hasLocation() => _location != null;
-
-  // "desiredGender" field.
-  String? _desiredGender;
-  String get desiredGender => _desiredGender ?? '';
-  bool hasDesiredGender() => _desiredGender != null;
-
-  // "gender" field.
-  String? _gender;
-  String get gender => _gender ?? '';
-  bool hasGender() => _gender != null;
-
-  // "matches" field.
-  List<String>? _matches;
-  List<String> get matches => _matches ?? const [];
-  bool hasMatches() => _matches != null;
-
-  // "rejected" field.
-  List<String>? _rejected;
-  List<String> get rejected => _rejected ?? const [];
-  bool hasRejected() => _rejected != null;
-
   // "created_time" field.
   DateTime? _createdTime;
   DateTime? get createdTime => _createdTime;
   bool hasCreatedTime() => _createdTime != null;
 
-  // "cover" field.
-  String? _cover;
-  String get cover => _cover ?? '';
-  bool hasCover() => _cover != null;
+  // "phone_number" field.
+  String? _phoneNumber;
+  String get phoneNumber => _phoneNumber ?? '';
+  bool hasPhoneNumber() => _phoneNumber != null;
+
+  // "userRole" field.
+  String? _userRole;
+  String get userRole => _userRole ?? '';
+  bool hasUserRole() => _userRole != null;
+
+  // "password" field.
+  String? _password;
+  String get password => _password ?? '';
+  bool hasPassword() => _password != null;
+
+  // "isGuest" field.
+  bool? _isGuest;
+  bool get isGuest => _isGuest ?? false;
+  bool hasIsGuest() => _isGuest != null;
 
   void _initializeFields() {
     _email = snapshotData['email'] as String?;
     _displayName = snapshotData['display_name'] as String?;
     _photoUrl = snapshotData['photo_url'] as String?;
     _uid = snapshotData['uid'] as String?;
-    _phoneNumber = snapshotData['phone_number'] as String?;
-    _bio = snapshotData['bio'] as String?;
-    _age = snapshotData['age'] as int?;
-    _location = snapshotData['location'] as String?;
-    _desiredGender = snapshotData['desiredGender'] as String?;
-    _gender = snapshotData['gender'] as String?;
-    _matches = getDataList(snapshotData['matches']);
-    _rejected = getDataList(snapshotData['rejected']);
     _createdTime = snapshotData['created_time'] as DateTime?;
-    _cover = snapshotData['cover'] as String?;
+    _phoneNumber = snapshotData['phone_number'] as String?;
+    _userRole = snapshotData['userRole'] as String?;
+    _password = snapshotData['password'] as String?;
+    _isGuest = snapshotData['isGuest'] as bool?;
   }
 
   static CollectionReference get collection =>
@@ -139,14 +110,11 @@ Map<String, dynamic> createUsersRecordData({
   String? displayName,
   String? photoUrl,
   String? uid,
-  String? phoneNumber,
-  String? bio,
-  int? age,
-  String? location,
-  String? desiredGender,
-  String? gender,
   DateTime? createdTime,
-  String? cover,
+  String? phoneNumber,
+  String? userRole,
+  String? password,
+  bool? isGuest,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -154,16 +122,46 @@ Map<String, dynamic> createUsersRecordData({
       'display_name': displayName,
       'photo_url': photoUrl,
       'uid': uid,
-      'phone_number': phoneNumber,
-      'bio': bio,
-      'age': age,
-      'location': location,
-      'desiredGender': desiredGender,
-      'gender': gender,
       'created_time': createdTime,
-      'cover': cover,
+      'phone_number': phoneNumber,
+      'userRole': userRole,
+      'password': password,
+      'isGuest': isGuest,
     }.withoutNulls,
   );
 
   return firestoreData;
+}
+
+class UsersRecordDocumentEquality implements Equality<UsersRecord> {
+  const UsersRecordDocumentEquality();
+
+  @override
+  bool equals(UsersRecord? e1, UsersRecord? e2) {
+    return e1?.email == e2?.email &&
+        e1?.displayName == e2?.displayName &&
+        e1?.photoUrl == e2?.photoUrl &&
+        e1?.uid == e2?.uid &&
+        e1?.createdTime == e2?.createdTime &&
+        e1?.phoneNumber == e2?.phoneNumber &&
+        e1?.userRole == e2?.userRole &&
+        e1?.password == e2?.password &&
+        e1?.isGuest == e2?.isGuest;
+  }
+
+  @override
+  int hash(UsersRecord? e) => const ListEquality().hash([
+        e?.email,
+        e?.displayName,
+        e?.photoUrl,
+        e?.uid,
+        e?.createdTime,
+        e?.phoneNumber,
+        e?.userRole,
+        e?.password,
+        e?.isGuest
+      ]);
+
+  @override
+  bool isValidKey(Object? o) => o is UsersRecord;
 }
